@@ -85,5 +85,8 @@ class Vector (VectorThing):
 
     magnitude = length = norm
 
+    def direction(self):
+        return self/self.norm()
+
     # TODO: Projection
     # TODO: Angle
