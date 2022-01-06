@@ -1,4 +1,5 @@
 from .types import VectorThing, vector, scalar
+import math
 
 
 class Vector (VectorThing):
@@ -88,5 +89,11 @@ class Vector (VectorThing):
     def direction(self):
         return self/self.norm()
 
-    # TODO: Projection
-    # TODO: Angle
+    def angle(self, other):
+        return math.radians(math.acos(self.direction().dot(other.direction())))
+
+    def projected_length(self, other):
+        return self.norm()*self.direction().dot(other.direction())
+
+    def project(self, other):
+        return self.projected_length(other)*other.direction
