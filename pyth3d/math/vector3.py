@@ -10,6 +10,14 @@ class Vector3 (Vector):
         self.y = property(self.get_y, self.set_y)
         self.z = property(self.get_z, self.set_z)
 
+    def cross(self, other):
+        obj1 = self.__class__(other) << 1
+        obj2 = obj1 >> 2
+        return ((self*obj1) << 1) - ((self*obj2) >> 1)
+
+    def perpendicular(self, other):
+        return self.cross(other)/(self.sin(other)*self.norm()*other.norm())
+
     def get_x(self):
         return self._vector[0]
 

@@ -76,6 +76,22 @@ class Vector (VectorThing):
     def __setitem__(self, key, value):
         self._vector.__setitem__(key, value)
 
+    def __lshift__(self, n):
+        out = self.__copy__()
+        for i in range(n):
+            out._vector.append(out._vector.pop(0))
+        return out
+
+    def __rshift__(self, n):
+        out = self.__copy__()
+        for i in range(n):
+            out._vector.insert(0, out._vector.pop())
+        return out
+
+    def __eq__(self, other):
+        obj = self.__class__(other)
+        return all((self._vector[i] == obj._vector[i] for i in range(self._dimensions)))
+
     def dot(self, other):
         return sum(self * other)
 
@@ -86,14 +102,22 @@ class Vector (VectorThing):
 
     magnitude = length = norm
 
-    def direction(self):
+    def unit(self):
         return self/self.norm()
 
+    direction = unit
+
+    def cos(self, other):
+        return self.unit().dot(self.__class__(other).unit())
+
+    def sin(self, other):
+        return (1-self.cos(other)**2)**(1/2)
+
     def angle(self, other):
-        return math.radians(math.acos(self.direction().dot(other.direction())))
+        return math.acos(self.cos(other))
 
     def projected_length(self, other):
-        return self.norm()*self.direction().dot(other.direction())
+        return self.norm()*self.unit().dot(other.unit())
 
     def project(self, other):
-        return self.projected_length(other)*other.direction
+        return self.projected_length(other)*other.unit
