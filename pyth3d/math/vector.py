@@ -30,6 +30,9 @@ class Vector (VectorThing):
     def __iter__(self):
         return iter(self._vector)
 
+    def __bool__(self):
+        return True
+
     def __copy__(self):
         return self.__class__(self._vector.copy())
 
@@ -117,7 +120,7 @@ class Vector (VectorThing):
         return math.acos(self.cos(other))
 
     def projected_length(self, other):
-        return self.norm()*self.unit().dot(other.unit())
+        return self.norm()*self.cos(other)
 
     def project(self, other):
         return self.projected_length(other)*other.unit

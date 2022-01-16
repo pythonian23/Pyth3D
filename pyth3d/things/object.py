@@ -1,17 +1,17 @@
 from .polygon import Polygon
-from pyth3d.math import Vector3
+from .view import View
+from ..graphics import Drawer
 
 
 class Object:
     def __init__(self, *args: Polygon):
-        self.faces = (
+        self.faces = [
             face for face in args
-        )
+        ]
 
     def add_face(self, face):
         self.faces += (face,)
 
-    def draw(self, view: Vector3, drawer):
+    def draw(self, view: View, drawer: Drawer):
         for polygon in self.faces:
-            if (view - polygon.direction()).length() < (view + polygon.direction()).length() or True:
-                polygon.draw(view, drawer)
+            view.draw_poly(polygon, drawer)
